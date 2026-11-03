@@ -8,5 +8,10 @@
         "name": "Bread",
         "amount": 500.0,
         "category": "Food"
+    },
+    {
+        "name": "Play Station",
+        "amount": 100.0,
+        "category": "Game"
     }
 ]
