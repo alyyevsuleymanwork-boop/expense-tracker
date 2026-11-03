@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Bread",
+        "amount": 500.0,
+        "category": "Food"
+    },
+    {
+        "name": "Bread",
+        "amount": 500.0,
+        "category": "Food"
+    }
+]
