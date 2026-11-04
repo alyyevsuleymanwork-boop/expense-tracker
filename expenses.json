@@ -1,17 +1,20 @@
 [
     {
+        "id": 1,
         "name": "Bread",
-        "amount": 500.0,
+        "amount": 20.0,
         "category": "Food"
     },
     {
-        "name": "Bread",
-        "amount": 500.0,
-        "category": "Food"
+        "id": 2,
+        "name": "Bus",
+        "amount": 67.0,
+        "category": "Transport"
     },
     {
-        "name": "Play Station",
-        "amount": 100.0,
-        "category": "Game"
+        "id": 3,
+        "name": "Bread",
+        "amount": 20.0,
+        "category": "Food"
     }
 ]
