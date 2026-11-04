@@ -1,13 +1,14 @@
-# Expense Tracker
+# Expense Tracker 💰
 
-A simple CLI application for tracking personal expenses.
+A simple CLI application for tracking personal expenses, built with Python.
 
 ## Features
 
-- Add new expenses
-- Save expenses in JSON
-- Load saved expenses
-- View all expenses
+- Add new expenses with automatic ID generation (`get_next_id`)
+- Add and manage custom categories (`categories.json`)
+- View all saved expenses
+- Data persistence using JSON (`expenses.json`)
+- Interactive command-line menu with input validation
 
 ## Technologies
 
@@ -16,11 +17,16 @@ A simple CLI application for tracking personal expenses.
 
 ## How to run
 
-1. Clone the repository.
-2. Run main.py:
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/alyyevsuleymanwork-boop/expense-tracker.git](https://github.com/alyyevsuleymanwork-boop/expense-tracker.git)
+Navigate to the project folder:
 
-python main.py
+Bash
+cd expense_tracker
+Run the application:
 
-## Project status
-
-In development.
+Bash
+python3 main.py
+Project status
+In active development 🚀
