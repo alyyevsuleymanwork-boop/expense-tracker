@@ -17,16 +17,20 @@ A simple CLI application for tracking personal expenses, built with Python.
 
 ## How to run
 
-1. Clone the repository:
+Clone the repository:
    ```bash
-   git clone [https://github.com/alyyevsuleymanwork-boop/expense-tracker.git](https://github.com/alyyevsuleymanwork-boop/expense-tracker.git)
+   git clone https://github.com/alyyevsuleymanwork-boop/expense-tracker.git
+   ```
+
 Navigate to the project folder:
+   ```Bash
+   cd expense_tracker
+   ```
 
-Bash
-cd expense_tracker
 Run the application:
+   ```Bash
+   python3 main.py
+   ```
 
-Bash
-python3 main.py
 Project status
-In active development 🚀
+In active development
