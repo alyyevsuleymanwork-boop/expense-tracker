@@ -1,4 +1,36 @@
 import json
+from fastapi import FastAPI
+from pydantic import BaseModel, Field
+
+
+app = FastAPI()
+
+
+class AddCategory(BaseModel):
+    name_category: str = Field(max_length=10, min_length=1, description='Название категория')
+
+
+class MessageResponse(BaseModel):
+    message: str
+
+
+class ExpenseDict(BaseModel):
+    id: int
+    name: str = Field(max_length=15, min_length=1, description="Название расхода")
+    amount: float = Field(..., ge=0, description='Цена расхода')
+    category: str
+
+
+class ExpensesListResponse(BaseModel):
+    expenses: list[ExpenseDict]
+
+
+class AddExpense(BaseModel):
+    name: str = Field(max_length=15, min_length=1, description="Название расхода")
+    amount: float = Field(..., ge=0, description='Цена расхода')
+    category: str
+    add_category: str = Field(default='нет')
+
 
 
 categories = ['Food', 'Home']
@@ -36,105 +68,64 @@ def get_next_id():
     else:
         return 1
 
-def add_category(category):
+@app.post("/categories", response_model=MessageResponse)
+def add_category(new_category: AddCategory):
     with open('categories.json', 'w') as file:
-        categories.append(category)
+        categories.append(new_category.name_category)
         json.dump(categories, file, indent=4, ensure_ascii=False)
-    print('Категория успешно добавлена')
+    return {'message': 'Категория успешно добавлена'}
 
 
-def show_expenses():
-    print('==== Мои расходи =====')
-    if expense_list:
-        for i in expense_list:
-            print(f"ID: {i['id']}")
-            print(f'Название: {i['name']}')
-            print(f'Сумма: {i['amount']}')
-            print(f'Категория: {i['category']}')
-            print()
+@app.get('/expenses')
+def show_expenses(limit: int = 10, search: str | None = None):
+    result = expense_list
+    if search:
+        if expense_list:
+            result = []
+            for i in expense_list:
+                if search.lower() in i['name'].lower():
+                    result.append(i)
+            return {'expenses': result[:limit]}
+        if not result:
+            return {'message': 'Нету такой траты'}
+    return {'expenses': result[:limit]}
 
+                
 
-def add_expense():
-    name = input('Название расхода: ')
-    while True:
-        try:
-            amount = float(input('Сумма: '))
-            break
-        except ValueError:
-            print('Сумма не может быть символом введите число')
-    category = input('Категория: ').capitalize()
-
-
-    if category in categories:
-        expense = {
+@app.post('/expenses')
+def add_expense(expense: AddExpense):
+    if expense.category in categories:
+        expense_ = {
             'id': get_next_id(),
-            'name': name,
-            'amount': amount,
-            'category': category
+            'name': expense.name,
+            'amount': expense.amount,
+            'category': expense.category
         }
 
-
-        expense_list.append(expense)
+        expense_list.append(expense_)
         with open('expenses.json', 'w') as file:
             json.dump(expense_list, file, indent=4, ensure_ascii=False)
 
-    else:
-
-        while True:
-            question = input('Такой категории нету хотите добавить свою категорию: да/нет: ').capitalize()
-            if question == 'Нет':
-                print('Хорошо спасибо')
-                break
-
-            elif question == 'Да':
-                add_category(category)
-                expense = {
-                    'id': get_next_id(),
-                    'name': name,
-                    'amount': amount,
-                    'category': category
-                }
-
-                expense_list.append(expense)
-                with open('expenses.json', 'w') as file:
-                    json.dump(expense_list, file, indent=4, ensure_ascii=False)
-                break
-
-            else:
-                print('Надо написать да или нет')
-
-while True:
-    print('1. Добавить расход')
-    print('2. Добавить категорию')
-    print('3. Посмотреть список трат')
-    print('4. Выход')
-    print()
-
-    while True:
-        try:
-            choice2 = int(input('Выберите действие которую хотите выполнить: '))
-            break
-        except ValueError:
-            print('Выбор должен быть числом')
-
-
-    if choice2 == 1:
-        add_expense()
-
-
-    elif choice2 == 2:
-        category = input('Введите название новой категории: ')
-        add_category(category)
-
-
-    elif choice2 == 3:
-        show_expenses()
-
-
-    elif choice2 == 4:
-        print('Спасибо за использвание нашим приложением')
-        break
+        return {'message': 'Данные успешно сохранены'}
 
 
     else:
-        print('Выберите действие из списка')
+        if expense.add_category == 'нет':
+            return {'message': 'Хорошо спасибо'}
+
+        elif expense.add_category == 'да':
+            add_category(AddCategory(name_category=expense.category))
+            expense_ = {
+                'id': get_next_id(),
+                'name': expense.name,
+                'amount': expense.amount,
+                'category': expense.category
+            }
+            expense_list.append(expense_)
+            with open('expenses.json', 'w') as file:
+                json.dump(expense_list, file, indent=4, ensure_ascii=False)
+
+            return {'message': 'Категория успешно добавлена'}
+
+        else:
+            return {'message': 'Неправильный ввод надо ввести да или нет'}
