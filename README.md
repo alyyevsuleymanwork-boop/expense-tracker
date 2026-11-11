@@ -1,36 +1,53 @@
-# Expense Tracker 💰
+# Expense Tracker API 💰
 
-A simple CLI application for tracking personal expenses, built with Python.
+A modern backend REST API for tracking personal expenses, built with FastAPI and Python.
 
 ## Features
 
-- Add new expenses with automatic ID generation (`get_next_id`)
-- Add and manage custom categories (`categories.json`)
-- View all saved expenses
-- Data persistence using JSON (`expenses.json`)
-- Interactive command-line menu with input validation
+- **FastAPI Framework**: High-performance API with interactive Swagger documentation (`/docs`)
+- **Pydantic Validation**: Strict data validation schemas for requests and responses (`AddExpense`, `AddCategory`, `ExpensesListResponse`)
+- **Automatic ID Generation**: Dynamic ID calculation (`get_next_id`) for new expenses
+- **Category Management**: Built-in validation and dynamic creation of custom expense categories
+- **Search & Filtering**: Retrieve expenses with custom limits and search queries
+- **Data Persistence**: JSON-based state management (`expenses.json`, `categories.json`)
 
 ## Technologies
 
 - Python
+- FastAPI
+- Pydantic
+- Uvicorn
 - JSON
 
 ## How to run
 
-Clone the repository:
+1. Clone the repository:
    ```bash
-   git clone https://github.com/alyyevsuleymanwork-boop/expense-tracker.git
+   git clone [https://github.com/alyyevsuleymanwork-boop/expense-tracker.git](https://github.com/alyyevsuleymanwork-boop/expense-tracker.git)
    ```
 
 Navigate to the project folder:
-   ```Bash
-   cd expense_tracker
-   ```
+```bash
+cd expense-tracker
+```
+
+Create and activate a virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install dependencies:
+```bash
+pip install fastapi uvicorn pydantic
+```
 
 Run the application:
-   ```Bash
-   python3 main.py
-   ```
+```bash
+uvicorn main:app --reload
+```
+
+Open your browser and go to http://127.0.0.1:8000/docs to test the API.
 
 Project status
 In active development
