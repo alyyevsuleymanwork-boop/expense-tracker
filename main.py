@@ -1,5 +1,5 @@
 import json
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 
 
@@ -129,3 +129,20 @@ def add_expense(expense: AddExpense):
 
         else:
             return {'message': 'Неправильный ввод надо ввести да или нет'}
+
+@app.delete('/expenses/{expense_id}')
+def delete_expense(expense_id: int):
+    for i in expense_list:
+        if i['id'] == expense_id:
+            expense_list.remove(i)
+            with open('expenses.json', 'w') as file:
+
+                json.dump(
+                    expense_list, file, indent=4, ensure_ascii=False
+                )
+            return {'message': 'Выбранный элемент успешно удалена'}
+        
+    raise HTTPException (
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f'Элемент с id {expense_id} не найдет'
+    )

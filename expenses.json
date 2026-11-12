@@ -1,11 +1,5 @@
 [
     {
-        "id": 1,
-        "name": "Bread",
-        "amount": 20.0,
-        "category": "Food"
-    },
-    {
         "id": 2,
         "name": "Bus",
         "amount": 67.0,
